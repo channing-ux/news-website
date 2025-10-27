@@ -1,0 +1,70 @@
+body {
+  font-family: "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+button.category {
+  background-color: #444;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.category:hover {
+  background-color: #666;
+}
+
+#news-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+
+.news-card {
+  background-color: white;
+  width: 300px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.news-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-card h3 {
+  margin: 10px;
+  font-size: 18px;
+}
+
+.news-card p {
+  margin: 0 10px 10px;
+  color: #555;
+}
+
+.news-card a {
+  display: block;
+  text-align: right;
+  margin: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
