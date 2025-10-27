@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-// 從 Render 的環境變數取得 NewsAPI 金鑰
+// 從環境變數取得 NewsAPI 金鑰
 const API_KEY = process.env.API_KEY;
 if (!API_KEY) {
   console.error("❌ Error: API_KEY 未設定！");
@@ -33,3 +33,18 @@ app.get("/news", async (req, res) => {
 
     if (!response.ok) {
       const text = await response.text();
+      console.error("❌ NewsAPI 回傳錯誤:", text);
+      return res.status(response.status).json({ error: "NewsAPI 錯誤" });
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("❌ /news fetch 發生錯誤:", error);
+    res.status(500).json({ error: "伺服器錯誤" });
+  }
+});
+
+// 使用 Render 提供的 PORT 或本地預設 3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 伺服器運行在 port ${PORT}`));
