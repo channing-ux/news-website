@@ -25,22 +25,27 @@ app.get("/news", async (req, res) => {
   }
 
   try {
-    // 🔹 加上 User-Agent 讓 NewsAPI 認為是瀏覽器
+    // 加上 User-Agent 與 Accept headers，避免 Cloudflare 防爬蟲擋
     const response = await fetch(
       `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`,
       {
         headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+          "Accept": "application/json"
         }
       }
     );
 
-    const text = await response.text(); // 先抓原始文字
+    const text = await response.text();
+
     let data;
     try {
-      data = JSON.parse(text); // 嘗試轉成 JSON
+      data = JSON.parse(text);
     } catch {
-      data = { error: "無法解析 NewsAPI 回傳結果", raw: text };
+      return res.status(500).json({
+        error: "無法解析 NewsAPI 回傳結果",
+        raw: text
+      });
     }
 
     if (!response.ok || data.status === "error") {
