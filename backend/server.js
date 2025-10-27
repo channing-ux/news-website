@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 
 // 從環境變數取得 NewsAPI 金鑰
-const API_KEY = process.env.API_KEY;
+console.log("API_KEY:", process.env.API_KEY);
 if (!API_KEY) {
   console.error("❌ Error: API_KEY 未設定！");
 }
