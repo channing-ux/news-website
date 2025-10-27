@@ -25,8 +25,14 @@ app.get("/news", async (req, res) => {
   }
 
   try {
+    // 🔹 加上 User-Agent 讓 NewsAPI 認為是瀏覽器
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`,
+      {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+        }
+      }
     );
 
     const text = await response.text(); // 先抓原始文字
