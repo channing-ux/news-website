@@ -6,51 +6,35 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-// 從環境變數取得 NewsAPI 金鑰
+// 從環境變數取得 NewsData.io 金鑰
 const API_KEY = process.env.API_KEY;
 if (!API_KEY) {
   console.error("❌ Error: API_KEY 未設定！");
 }
 
 app.get("/", (req, res) => {
-  res.send("News Proxy Server 正常運作中 🚀");
+  res.send("📰 NewsData.io Proxy Server 正常運作中 🚀");
 });
 
+// /news endpoint
 app.get("/news", async (req, res) => {
-  const category = req.query.category || "general";
+  const category = req.query.category || "top";
   const country = req.query.country || "us";
+  const language = req.query.language || "en";
 
   if (!API_KEY) {
     return res.status(500).json({ error: "API_KEY 未設定" });
   }
 
   try {
-    // 加上 User-Agent 與 Accept headers，避免 Cloudflare 防爬蟲擋
-    const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`,
-      {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-          "Accept": "application/json"
-        }
-      }
-    );
+    const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=${language}`;
 
-    const text = await response.text();
-
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      return res.status(500).json({
-        error: "無法解析 NewsAPI 回傳結果",
-        raw: text
-      });
-    }
+    const response = await fetch(url);
+    const data = await response.json();
 
     if (!response.ok || data.status === "error") {
-      console.error("❌ NewsAPI 錯誤內容:", data);
-      return res.status(response.status || 500).json({ error: "NewsAPI 錯誤", details: data });
+      console.error("❌ NewsData.io 錯誤內容:", data);
+      return res.status(response.status || 500).json({ error: "NewsData.io 錯誤", details: data });
     }
 
     res.json(data);
