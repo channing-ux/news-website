@@ -5,31 +5,60 @@ import cors from "cors";
 
 const app = express();
 
-// ✅ 允許跨域請求（含 GitHub Pages 網址）
-app.use(cors({
-  origin: ["https://channing-ux.github.io"], // 允許你的前端網域
-  methods: ["GET"], // 只開放 GET 即可
-}));
+// ✅ 允許跨域請求（支援 GitHub Pages）
+app.use(
+  cors({
+    origin: ["https://channing-ux.github.io"], // 你的前端網址
+    methods: ["GET"],
+  })
+);
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.API_KEY; // Render 上設定的 NewsData.io 金鑰
 if (!API_KEY) {
   console.error("❌ Error: API_KEY 未設定！");
 }
 
 app.get("/", (req, res) => {
-  res.send("News Proxy Server 正常運作中 🚀");
+  res.send("✅ News Proxy Server 正常運作中 🚀");
 });
 
 app.get("/news", async (req, res) => {
-  const category = req.query.category || "general";
+  let category = req.query.category || "top"; // ✅ NewsData.io 不支援 "general"
   const country = req.query.country || "us";
 
-  try {
-    const response = await fetch(
-      `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=en`
-    );
+  // ✅ NewsData.io 支援的合法分類清單（2025年）
+  const validCategories = [
+    "top",
+    "world",
+    "business",
+    "politics",
+    "environment",
+    "entertainment",
+    "sports",
+    "science",
+    "technology",
+    "health",
+  ];
 
-    const data = await response.json();
+  // 🛠️ 若 category 無效，自動改成 "top"
+  if (!validCategories.includes(category)) {
+    console.warn(`⚠️ 無效分類「${category}」，已改為 "top"`);
+    category = "top";
+  }
+
+  try {
+    const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=en`;
+    console.log("📡 Fetching:", url);
+
+    const response = await fetch(url);
+    const text = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { error: "❌ 無法解析 NewsData.io 回傳結果", raw: text };
+    }
 
     if (data.status === "error") {
       console.error("❌ NewsData.io 錯誤:", data);
