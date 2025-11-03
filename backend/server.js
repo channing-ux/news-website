@@ -4,37 +4,36 @@ import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
 
-// 從環境變數取得 NewsData.io 金鑰
+// ✅ 允許跨域請求（含 GitHub Pages 網址）
+app.use(cors({
+  origin: ["https://channing-ux.github.io"], // 允許你的前端網域
+  methods: ["GET"], // 只開放 GET 即可
+}));
+
 const API_KEY = process.env.API_KEY;
 if (!API_KEY) {
   console.error("❌ Error: API_KEY 未設定！");
 }
 
 app.get("/", (req, res) => {
-  res.send("📰 NewsData.io Proxy Server 正常運作中 🚀");
+  res.send("News Proxy Server 正常運作中 🚀");
 });
 
-// /news endpoint
 app.get("/news", async (req, res) => {
-  const category = req.query.category || "top";
+  const category = req.query.category || "general";
   const country = req.query.country || "us";
-  const language = req.query.language || "en";
-
-  if (!API_KEY) {
-    return res.status(500).json({ error: "API_KEY 未設定" });
-  }
 
   try {
-    const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=${language}`;
+    const response = await fetch(
+      `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=en`
+    );
 
-    const response = await fetch(url);
     const data = await response.json();
 
-    if (!response.ok || data.status === "error") {
-      console.error("❌ NewsData.io 錯誤內容:", data);
-      return res.status(response.status || 500).json({ error: "NewsData.io 錯誤", details: data });
+    if (data.status === "error") {
+      console.error("❌ NewsData.io 錯誤:", data);
+      return res.status(500).json({ error: "NewsData.io 錯誤", details: data });
     }
 
     res.json(data);
