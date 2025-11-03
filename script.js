@@ -1,4 +1,4 @@
-const backendUrl = "https://newsproxy-render.onrender.com"; // ← 改成你的 Render 網址
+const backendUrl = "https://news-website-1-5mxd.onrender.com"; // ← 改成你的 Render 網址
 const newsContainer = document.getElementById("news-container");
 const buttons = document.querySelectorAll(".category");
 
