@@ -314,4 +314,22 @@ body.theme-dark .error-message {
     .setting-group {
         justify-content: center;
     }
+    /* style.css (確保在文件載入時和切換時，標題顏色都被強制設定) */
+
+/* 淺色模式：標題顏色為白色 (配合藍色背景) */
+body.theme-light .main-header {
+    color: #ffffff !important;
+}
+body.theme-light .main-header h1 {
+    color: #ffffff !important;
+}
+
+/* 深色模式：標題顏色為白色 (配合深色背景) */
+body.theme-dark .main-header {
+    /* 背景色會從變數取得，這裡只需確保文字顏色為淺色 */
+    color: #ffffff !important; 
+}
+body.theme-dark .main-header h1 {
+    color: #ffffff !important;
+}
 }

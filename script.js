@@ -145,4 +145,9 @@ function displayNews(articles) {
         `;
         newsContainer.appendChild(card);
     });
+    // script.js (請在文件載入邏輯中新增此行)
+
+// ⭐ 關鍵修正：確保網頁載入時 body 具備預設的 'theme-light' Class
+// 這樣 CSS 才能從一開始就正確設定淺色模式的樣式。
+body.classList.add('theme-light');
 }
