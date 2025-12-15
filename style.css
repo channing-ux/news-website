@@ -1,67 +1,75 @@
-/* style.css (新增主題與字體樣式) */
+/* style.css (完整版：包含主題切換、字體調整和美編) */
 
-/* 確保基礎設定保留 */
+/* --- 0. 基礎 CSS 變數 (預設：淺色主題) --- */
 :root {
-  --primary-color: #007BFF; /* 藍色 */
-  --secondary-color: #6C757D; /* 灰色 */
-  --background-color: #f8f9fa; /* 淺灰背景 (預設) */
-  --card-background: #ffffff; 
-  --text-color: #212529; /* 深色文字 (預設) */
-  --border-color: #dee2e6;
-  --base-font-size: 16px; /* 基準字體大小 */
+    --primary-color: #007BFF; /* 藍色 (主要強調色) */
+    --secondary-color: #6C757D; /* 灰色 (次要文字) */
+    --background-color: #f8f9fa; /* 淺灰背景 */
+    --card-background: #ffffff; /* 卡片白色 */
+    --text-color: #212529; /* 深色文字 */
+    --border-color: #dee2e6;
+    --base-font-size: 16px; /* 基準字體大小 */
+    --header-bg: var(--primary-color);
+    --header-text: white;
 }
 
-/* --- 語言字體切換 --- */
-body[data-lang="zh"] {
-    font-family: 'Noto Sans TC', sans-serif;
-}
-body[data-lang="en"] {
-    font-family: 'Roboto', sans-serif; /* 英文使用更適合的字體 */
-}
-
-
-/* --- ⭐ 深色主題 (Dark Theme) 定義 --- */
+/* --- 1. 深色主題 (Dark Theme) 定義 --- */
 body.theme-dark {
-  --background-color: #121212; /* 深黑背景 */
-  --card-background: #1e1e1e; /* 深灰卡片 */
-  --text-color: #e0e0e0; /* 淺色文字 */
-  --primary-color: #4CAF50; /* 綠色作為主要強調色 */
-  --secondary-color: #aaaaaa;
-  --border-color: #333333;
-  color: var(--text-color);
-  background-color: var(--background-color);
+    --background-color: #121212; /* 深黑背景 */
+    --card-background: #1e1e1e; /* 深灰卡片 */
+    --text-color: #e0e0e0; /* 淺色文字 */
+    --primary-color: #4CAF50; /* 綠色作為主要強調色 */
+    --secondary-color: #aaaaaa;
+    --border-color: #333333;
+    --header-bg: #1f1f1f; /* 頁首背景也變深 */
+    --header-text: #ffffff;
+    
+    color: var(--text-color); /* 應用深色模式文字顏色 */
+    background-color: var(--background-color); /* 應用深色模式背景 */
 }
-body.theme-dark .main-header {
-    background-color: #1f1f1f;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-body.theme-dark button.category.active {
-    background-color: var(--primary-color);
-    color: #121212;
-}
-body.theme-dark .news-card {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-}
-body.theme-dark .card-footer {
-    border-top: 1px solid var(--border-color);
-}
-/* (其他樣式繼承，只修改顏色相關的變數) */
 
+/* --- 2. 通用基礎設定與字體 --- */
+body {
+    /* 預設使用中文/Roboto 字體，具體由 data-lang 控制 */
+    font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s; /* 平滑過渡主題切換 */
+    font-size: var(--base-font-size); /* 基準字體 */
+}
 
-/* --- ⭐ 字體大小調整 --- */
-/* A+ (增加) */
-body.font-size-plus1 { font-size: calc(var(--base-font-size) * 1.1); }
-body.font-size-plus2 { font-size: calc(var(--base-font-size) * 1.25); }
+/* 語言字體切換 */
+body[data-lang="en"] {
+    font-family: 'Roboto', sans-serif; 
+}
 
-/* A- (減少) */
-body.font-size-minus1 { font-size: calc(var(--base-font-size) * 0.9); }
-body.font-size-minus2 { font-size: calc(var(--base-font-size) * 0.8); }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
 
-/* --- ⭐ 設定列樣式 --- */
+/* --- 3. 頁首 (Header) 樣式 --- */
+.main-header {
+    background-color: var(--header-bg); /* 使用變數控制背景 */
+    color: var(--header-text); /* 使用變數控制文字顏色 */
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.main-header h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* --- 4. 設定控制列樣式 --- */
 #settings-bar {
     display: flex;
+    flex-wrap: wrap; /* 響應式換行 */
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     margin-top: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -79,14 +87,13 @@ body.font-size-minus2 { font-size: calc(var(--base-font-size) * 0.8); }
 }
 
 .lang-btn, .font-btn, .theme-btn {
-    /* 統一樣式 */
     background: transparent;
-    color: white;
+    color: var(--header-text);
     border: 1px solid rgba(255, 255, 255, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
     font-size: 0.8em;
 }
 
@@ -96,11 +103,215 @@ body.font-size-minus2 { font-size: calc(var(--base-font-size) * 0.8); }
     font-weight: bold;
 }
 
-/* 確保主題按鈕的 active 樣式在深色模式下也清晰 */
+/* 深色模式下主題按鈕的 Active 樣式 */
+body.theme-dark .lang-btn.active,
+body.theme-dark .font-btn.active,
 body.theme-dark .theme-btn.active {
     background-color: var(--primary-color);
-    color: #121212;
+    color: var(--text-color); /* 為了高對比，變成深色文字 */
     border-color: var(--primary-color);
 }
 
-/* (保留您上一個版本中所有關於 .news-card, .news-grid, header, footer 的樣式，這裡只展示新增和修改的部分) */
+
+/* --- 5. 分類導航 (Nav) 樣式 --- */
+.category-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button.category {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    font-size: 0.95rem;
+}
+
+button.category:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+button.category.active {
+    background-color: white;
+    color: var(--primary-color);
+    font-weight: bold;
+    border-color: white;
+}
+
+/* 深色模式下的分類按鈕 */
+body.theme-dark button.category {
+    color: var(--text-color);
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+}
+
+body.theme-dark button.category.active {
+    background-color: var(--primary-color);
+    color: #121212; /* 確保主色調和文字有高對比 */
+    border-color: var(--primary-color);
+}
+
+/* --- 6. 字體大小調整 --- */
+/* A+ (增加) */
+body.font-size-plus1 { font-size: calc(var(--base-font-size) * 1.1); }
+body.font-size-plus2 { font-size: calc(var(--base-font-size) * 1.25); }
+
+/* A- (減少) */
+body.font-size-minus1 { font-size: calc(var(--base-font-size) * 0.9); }
+body.font-size-minus2 { font-size: calc(var(--base-font-size) * 0.8); }
+
+/* --- 7. 新聞網格佈局 (Grid) --- */
+#news-container {
+    display: grid;
+    /* 響應式佈局：最小寬度 300px */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 30px 0;
+}
+
+/* --- 8. 新聞卡片 (Card) 樣式 --- */
+.news-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-decoration: none; 
+    color: var(--text-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* 深色模式下的卡片陰影 */
+body.theme-dark .news-card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.news-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.news-card:hover img {
+    transform: scale(1.05); 
+}
+
+.card-content {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.5em; 
+}
+
+.description {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1; 
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto; 
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+.source {
+    font-weight: bold;
+}
+
+/* --- 9. 狀態訊息樣式 --- */
+.loading, .no-news, .error-message {
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+}
+
+/* 深色模式下的錯誤訊息 */
+body.theme-dark .error-message {
+    background-color: #4a2d2d;
+    color: #ff9999;
+    border: 1px solid #7c4c4c;
+}
+
+/* --- 10. 頁腳 (Footer) 樣式 --- */
+.main-footer {
+    text-align: center;
+    padding: 15px;
+    background-color: var(--header-bg); /* 與頁首顏色保持一致 */
+    color: var(--header-text);
+    font-size: 0.8rem;
+    margin-top: 20px;
+}
+
+/* --- 11. 響應式調整 (小螢幕手機) --- */
+@media (max-width: 600px) {
+    .main-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .category-nav {
+        gap: 5px;
+    }
+    
+    button.category {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+
+    #settings-bar {
+        flex-direction: column; /* 設置欄垂直堆疊 */
+        gap: 10px;
+    }
+    
+    .setting-group {
+        justify-content: center;
+    }
+}
