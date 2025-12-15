@@ -1,70 +1,183 @@
+/* style.css (美化升級版) */
+
+/* --- 基礎設定與字體 --- */
+:root {
+  --primary-color: #007BFF; /* 藍色 */
+  --secondary-color: #6C757D; /* 灰色 */
+  --background-color: #f8f9fa; /* 淺灰背景 */
+  --card-background: #ffffff; /* 卡片白色 */
+  --text-color: #212529; /* 深色文字 */
+  --border-color: #dee2e6;
+}
+
 body {
-  font-family: "Microsoft JhengHei", sans-serif;
-  margin: 0;
-  background-color: #f4f4f4;
+  font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
-header {
-  background-color: #222;
-  color: white;
-  text-align: center;
-  padding: 1rem;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
-nav {
-  margin-top: 10px;
+/* --- 頁首 (Header) 樣式 --- */
+.main-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-header h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 button.category {
-  background-color: #444;
-  color: white;
-  border: none;
-  margin: 5px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2); /* 透明背景 */
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  font-size: 0.95rem;
 }
 
 button.category:hover {
-  background-color: #666;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ⭐ 新增：目前選中按鈕的樣式 */
+button.category.active {
+  background-color: white;
+  color: var(--primary-color);
+  font-weight: bold;
+  border-color: white;
+}
+
+/* --- 新聞網格佈局 (Grid) --- */
 #news-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
+  /* 使用 Grid 實現響應式卡片佈局 */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 30px 0;
 }
 
+/* --- 新聞卡片 (Card) 樣式 --- */
 .news-card {
-  background-color: white;
-  width: 300px;
-  margin: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-background);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-decoration: none; /* 移除超連結底線 */
+  color: var(--text-color);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.news-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+.news-card:hover {
+  transform: translateY(-5px); /* 懸停時輕微上浮 */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-.news-card h3 {
-  margin: 10px;
-  font-size: 18px;
+.card-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
 
-.news-card p {
-  margin: 0 10px 10px;
-  color: #555;
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.news-card a {
-  display: block;
-  text-align: right;
-  margin: 10px;
-  color: #007bff;
-  text-decoration: none;
+.news-card:hover img {
+  transform: scale(1.05); /* 懸停時放大圖片 */
+}
+
+.card-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  /* 限制標題為兩行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5em; 
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+  /* 限制描述為三行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1; /* 讓描述佔滿中間空間 */
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto; /* 推到底部 */
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.source {
+  font-weight: bold;
+}
+
+/* --- 狀態訊息樣式 --- */
+.loading, .no-news, .error-message {
+  width: 100%;
+  text-align: center;
+  padding: 30px;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+}
+
+/* --- 頁腳 (Footer) 樣式 --- */
+.main-footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #343a40;
+  color: #adb5bd;
+  font-size: 0.8rem;
 }
