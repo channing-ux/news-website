@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 app.get("/news", async (req, res) => {
   // 從前端獲取參數
   let category = req.query.category || "top"; 
-  const country = req.query.country || "tw"; // 預設國家設為台灣
+ // const country = req.query.country || "tw"; // 預設國家設為台灣
   const language = req.query.language || "zh"; // ⭐ 預設語言設為中文
 
   // NewsData.io 支援的合法分類清單
