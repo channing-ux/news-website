@@ -80,3 +80,26 @@ app.get("/news", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 伺服器運行在 port ${PORT}`));
+
+// server.js (確認可接收 language 參數)
+// ... (前略)
+app.get("/news", async (req, res) => {
+  // 從前端獲取參數
+  let category = req.query.category || "top"; 
+  const country = req.query.country || "tw"; 
+  // ⭐ 確保這裡能接收 language 參數
+  const language = req.query.language || "zh"; 
+
+  // ... (分類檢查邏輯不變) ...
+
+  try {
+    // 構建 NewsData.io 請求 URL
+    // ⭐ 關鍵：使用傳入的 language 參數
+    const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${country}&category=${category}&language=${language}`;
+    console.log(`📡 Fetching: ${category} news for ${country}/${language}`);
+
+    // ... (後續的 fetch 和錯誤處理不變) ...
+    const response = await fetch(url);
+    // ...
+});
+// ... (後略)

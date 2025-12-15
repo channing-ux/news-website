@@ -1,38 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🚀 即時新聞聚合站</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 即時新聞聚合站</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="main-header">
-    <div class="container">
-      <h1>📰 即時新聞中心</h1>
-      <nav class="category-nav">
-                <button class="category active" data-category="top">頭條新聞</button>
-        <button class="category" data-category="technology">科技</button>
-        <button class="category" data-category="sports">體育</button>
-        <button class="category" data-category="business">商業</button>
-        <button class="category" data-category="entertainment">娛樂</button>
-        <button class="category" data-category="health">健康</button>
-        <button class="category" data-category="science">科學</button>
-      </nav>
-    </div>
-  </header>
+    <header class="main-header">
+        <div class="container">
+            <h1>📰 即時新聞中心</h1>
+            
+            <div id="settings-bar">
+                <div class="setting-group">
+                    <label>語言：</label>
+                    <button id="lang-zh" class="lang-btn active" data-lang="zh">中文</button>
+                    <button id="lang-en" class="lang-btn" data-lang="en">English</button>
+                </div>
 
-  <main class="container">
-        <div id="news-container" class="news-grid"></div>
-  </main>
-  
-  <footer class="main-footer">
-    <p>資料來源：NewsData.io | 運行在 Render.com</p>
-  </footer>
+                <div class="setting-group">
+                    <label>字體大小：</label>
+                    <button id="font-decrease" class="font-btn" data-size="-1">A-</button>
+                    <button id="font-increase" class="font-btn" data-size="+1">A+</button>
+                </div>
+                
+                <div class="setting-group">
+                    <label>主題：</label>
+                    <button id="theme-light" class="theme-btn active" data-theme="light">☀️</button>
+                    <button id="theme-dark" class="theme-btn" data-theme="dark">🌙</button>
+                </div>
+            </div>
+            <nav class="category-nav">
+                <button class="category active" data-category="top">頭條新聞</button>
+                <button class="category" data-category="technology">科技</button>
+                <button class="category" data-category="sports">體育</button>
+                <button class="category" data-category="business">商業</button>
+                <button class="category" data-category="entertainment">娛樂</button>
+                <button class="category" data-category="health">健康</button>
+                <button class="category" data-category="science">科學</button>
+            </nav>
+        </div>
+    </header>
 
-  <script src="script.js"></script>
+    <main class="container">
+        <div id="news-container" class="news-grid"></div>
+    </main>
+    
+    <footer class="main-footer">
+        <p>資料來源：NewsData.io | 運行在 Render.com</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
